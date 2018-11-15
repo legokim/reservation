@@ -95,5 +95,12 @@ public class ReservationRepositoryTest {
         List<Reservation> result = reservationJPARepository.findExistReservation(roomNo, startDt, endDt);
         assertThat(result.size()).isEqualTo(1);
     }
+
+    @Test
+    public void findReservation_해당_월_예약내역조회() {
+        String yearMonth = "201811";
+        List<Reservation> result = reservationJPARepository.findAllReservationByYearMonth(yearMonth);
+        assertThat(result.size()).isGreaterThan(0);
+    }
 }
 

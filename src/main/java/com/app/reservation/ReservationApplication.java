@@ -1,5 +1,7 @@
 package com.app.reservation;
 
+import com.querydsl.sql.H2Templates;
+import com.querydsl.sql.SQLTemplates;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.boot.SpringApplication;
@@ -44,4 +46,10 @@ public class ReservationApplication extends SpringBootServletInitializer impleme
             .paths(PathSelectors.any())
             .build();
     }
+
+    @Bean
+    public SQLTemplates sqlTemplates() {
+        return new H2Templates();
+    }
+
 }

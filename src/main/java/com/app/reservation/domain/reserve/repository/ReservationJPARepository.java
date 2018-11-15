@@ -17,4 +17,7 @@ public interface ReservationJPARepository extends JpaRepository<Reservation, Lon
                                            @Param("startDt") LocalDateTime startDt,
                                            @Param("endDt") LocalDateTime endDt);
 
+
+    @Query(value = "select r from Reservation r where ?1 between trunc(startDt, -1) and trunc(endDt, -1)")
+    List<Reservation> findAllReservationByYearMonth(@Param("yearMonth") String yearMonth);
 }
