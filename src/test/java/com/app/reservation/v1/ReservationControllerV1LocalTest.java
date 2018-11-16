@@ -39,7 +39,7 @@ public class ReservationControllerV1LocalTest {
     @Before
     public void setUp() throws Exception {
         dtoV1 = new ReservationRequestDtoV1();
-        roomNo = 1001;
+        roomNo = 101;
         dtoV1.setRoomNo(roomNo);
     }
 
