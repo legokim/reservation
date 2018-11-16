@@ -22,8 +22,10 @@ public class ReservationServiceImpl implements ReservationService {
 
     @Autowired
     private ReservationJPARepository reservationJPARepository;
+
     @Autowired
     private MemberRepository memberRepository;
+
     @Autowired
     private RoomRepository roomRepository;
 
