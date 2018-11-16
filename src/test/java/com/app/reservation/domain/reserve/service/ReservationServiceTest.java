@@ -53,7 +53,7 @@ public class ReservationServiceTest {
         assertThat(result.size()).isEqualTo(3);
     }
 
-    @Test(expected= ExistReservationFoundException.class)
+    @Test(expected = ExistReservationFoundException.class)
     public void saveReservation_반복_중간_실패() {
         reservation.setStartDt("201810291000");
         reservation.setEndDt("201810291100");

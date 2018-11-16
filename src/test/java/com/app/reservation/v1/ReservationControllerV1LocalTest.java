@@ -71,10 +71,10 @@ public class ReservationControllerV1LocalTest {
         HttpEntity entity = new HttpEntity(dtoV1);
 
         ResponseEntity<List<ReservationV1>> responseEntity =
-                restTemplate.exchange("/reservation/v1/room/10001"
-                        , HttpMethod.POST
-                        , entity
-                        , new ParameterizedTypeReference<List<ReservationV1>>() {
+                restTemplate.exchange("/reservation/v1/room/10001",
+                        HttpMethod.POST,
+                        entity,
+                        new ParameterizedTypeReference<List<ReservationV1>>() {
                         });
 
         return responseEntity.getBody();

@@ -10,7 +10,6 @@ spring:
 #        trace: false
 #        web-allow-others: false
 
-
   datasource:
     url: jdbc:h2:mem:reservedb;DB_CLOSE_ON_EXIT=FALSE
     platform: h2
@@ -31,6 +30,8 @@ spring:
     allow-bean-definition-overriding: true
   application:
     name: Reservation
+  profiles:
+    active: local
 
 logging:
   level:
