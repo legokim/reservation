@@ -1,7 +1,9 @@
 package com.app.reservation.api;
 
 import com.app.reservation.api.v1.dto.ResponseV1;
-import com.app.reservation.exception.ExistResultFoundException;
+import com.app.reservation.exception.ExistReservationFoundException;
+import com.app.reservation.exception.MemberNotFoundException;
+import com.app.reservation.exception.RoomNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.BeanCreationNotAllowedException;
 import org.springframework.http.HttpStatus;
@@ -89,10 +91,12 @@ public class ControllerExceptionHandler {
     }
 
     @ExceptionHandler(value = {
-            ExistResultFoundException.class
+            ExistReservationFoundException.class,
+            MemberNotFoundException.class,
+            RoomNotFoundException.class
     })
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ResponseV1<?> loyaltyBadRequestException(ExistResultFoundException ex, WebRequest req) {
+    public ResponseV1<?> loyaltyBadRequestException(Exception ex, WebRequest req) {
 
         log.warn(ex.getMessage(), ex);
 

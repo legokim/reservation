@@ -16,7 +16,7 @@ import static java.lang.annotation.ElementType.*;
 @ReportAsSingleViolation
 public @interface ReservationDateValid {
 
-    String message() default "예약 시간을 확인해주세요.(정시, 30분 단위 예약가능)";
+    String message() default "예약 시간을 확인해주세요.(정시, 30분 단위 예약가능, 과거시간 예약 되지 않음.)";
 
     Class[] groups() default {};
 

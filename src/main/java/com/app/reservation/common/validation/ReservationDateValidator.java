@@ -21,8 +21,11 @@ public class ReservationDateValidator implements ConstraintValidator<Reservation
 
         LocalDateTime start = LocalDateTime.parse(value.getStartDt(), dateFormat);
         LocalDateTime end   = LocalDateTime.parse(value.getEndDt(), dateFormat);
+
         long cal = ChronoUnit.MINUTES.between(start, end);
-        if(cal < 30 || (cal % 30 != 0))
+        if(cal < 30 ||
+                (cal % 30 != 0) ||
+                ChronoUnit.MINUTES.between(LocalDateTime.now(), start) < 1)
             return false;
 
         return true;

@@ -2,6 +2,7 @@ package com.app.reservation.api.v1;
 
 import com.app.reservation.api.v1.dto.ReservationRequestDtoV1;
 import com.app.reservation.api.v1.dto.ReservationV1;
+import com.app.reservation.common.validation.DateTimeSearchType;
 import com.app.reservation.common.validation.ReservationDateValid;
 import com.app.reservation.domain.reserve.repository.Reservation;
 import com.app.reservation.domain.reserve.service.ReservationService;
@@ -46,6 +47,31 @@ public class ReservationControllerV1 {
         @Valid @RequestBody @ReservationDateValid ReservationRequestDtoV1 dtoV1
     ) {
         List<Reservation> reservationV1List = reservationService.addReservationRepeat(dtoV1.toEntity().memNo(memberNo));
+        return reservationV1List.stream()
+                .map(d -> modelMapper.map(d, ReservationV1.class))
+                .collect(Collectors.toList());
+    }
+
+    @ApiOperation(value = "일/월 예약 내역 조회",
+            notes = "일/월 예약내역 조회 (ex. yearMonthDay : 201810 월 예약 조회, 20181005 일 예약 조회)")
+    @RequestMapping(value = "/{yearMonthDay}", method = RequestMethod.GET)
+    public  List<ReservationV1> findAllReservation(
+            @PathVariable @DateTimeSearchType String yearMonthDay
+    ) {
+        List<Reservation> reservationV1List = reservationService.findAllReservationByYearMonthDay(yearMonthDay);
+        return reservationV1List.stream()
+                .map(d -> modelMapper.map(d, ReservationV1.class))
+                .collect(Collectors.toList());
+    }
+
+    @ApiOperation(value = "나의 예약 내역 조회",
+            notes = "나의 예약내역 조회 (ex. yearMonthDay : 201810 월 예약 조회, 20181005 일 예약 조회)")
+    @RequestMapping(value = "/member/{memberNo}/{yearMonthDay}", method = RequestMethod.GET)
+    public  List<ReservationV1> findAllReservationByMember(
+            @PathVariable Long memberNo,
+            @PathVariable @DateTimeSearchType String yearMonthDay
+    ) {
+        List<Reservation> reservationV1List = reservationService.findAllReservationByMemNoAndYearMonthDay(memberNo, yearMonthDay);
         return reservationV1List.stream()
                 .map(d -> modelMapper.map(d, ReservationV1.class))
                 .collect(Collectors.toList());

@@ -2,13 +2,13 @@ package com.app.reservation.util;
 
 import com.querydsl.jpa.sql.JPASQLQuery;
 import com.querydsl.sql.SQLTemplates;
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.Environment;
 
 import javax.persistence.EntityManager;
-import javax.validation.constraints.NotNull;
 import java.text.MessageFormat;
 
 @Slf4j
@@ -16,12 +16,13 @@ import java.text.MessageFormat;
 public class JpaHelper {
 
     private static final String SQL_NAME_TAG_FORMAT = "/* {0} - {1} - {2} */";
-    @NotNull
+    @NonNull
     private final Environment env;
-    @NotNull
+    @NonNull
     private final EntityManager entityManager;
-    @NotNull
+    @NonNull
     private final SQLTemplates sqlTemplates;
+
     private static String applicationName;
 
     @Value("${spring.application.name}")
@@ -53,4 +54,5 @@ public class JpaHelper {
     public JPASQLQuery<?> query() {
         return new JPASQLQuery<Void>(entityManager, sqlTemplates);
     }
+
 }

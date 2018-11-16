@@ -21,6 +21,16 @@ insert into reservation (reserve_no, mem_no, room_no, create_dt, start_dt, end_d
 insert into reservation (reserve_no, mem_no, room_no, create_dt, start_dt, end_dt, repeat_cnt, update_dt)
   values ('4','40001','104', sysdate, to_date('201811051000','YYYYMMDDHH24MI'), to_date('201811051100','YYYYMMDDHH24MI'), '1', sysdate);
 
+insert into reservation (reserve_no, mem_no, room_no, create_dt, start_dt, end_dt, repeat_cnt, update_dt)
+  values ('5','40001','104', sysdate, to_date('201810051000','YYYYMMDDHH24MI'), to_date('201810051100','YYYYMMDDHH24MI'), '1', sysdate);
+insert into reservation (reserve_no, mem_no, room_no, create_dt, start_dt, end_dt, repeat_cnt, update_dt)
+  values ('6','30001','104', sysdate, to_date('201810050800','YYYYMMDDHH24MI'), to_date('201810050900','YYYYMMDDHH24MI'), '1', sysdate);
+insert into reservation (reserve_no, mem_no, room_no, create_dt, start_dt, end_dt, repeat_cnt, update_dt)
+  values ('7','30001','104', sysdate, to_date('201810050900','YYYYMMDDHH24MI'), to_date('201811051100','YYYYMMDDHH24MI'), '1', sysdate);
+insert into reservation (reserve_no, mem_no, room_no, create_dt, start_dt, end_dt, repeat_cnt, update_dt)
+  values ('8','30001','104', sysdate, to_date('201810040900','YYYYMMDDHH24MI'), to_date('201810041000','YYYYMMDDHH24MI'), '1', sysdate);
+
+
 
 -- insert into schedule (sch_no, start_dt, end_dt, use) values (1,  '0000', '0030', 1 );
 -- insert into schedule (sch_no, start_dt, end_dt, use) values (2,  '0030', '0100', 1 );

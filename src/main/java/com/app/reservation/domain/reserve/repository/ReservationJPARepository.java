@@ -3,10 +3,12 @@ package com.app.reservation.domain.reserve.repository;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
+@Repository
 public interface ReservationJPARepository extends JpaRepository<Reservation, Long> {
 
     @Query(value="SELECT r FROM Reservation r  where roomNo = ?1 "
@@ -18,6 +20,16 @@ public interface ReservationJPARepository extends JpaRepository<Reservation, Lon
                                            @Param("endDt") LocalDateTime endDt);
 
 
-    @Query(value = "select r from Reservation r where ?1 between trunc(startDt, -1) and trunc(endDt, -1)")
-    List<Reservation> findAllReservationByYearMonth(@Param("yearMonth") String yearMonth);
+    @Query(value = "select r from Reservation r " +
+            "where to_char(start_dt, 'YYYYMMDD') = ?1 or  to_char(end_dt, 'YYYYMMDD') = ?1" +
+            "or  to_char(start_dt, 'YYYYMM') = ?1 or  to_char(end_dt, 'YYYYMM') = ?1"
+    )
+    List<Reservation> findAllReservationByYearMonthDay(@Param("yearMonthDay") String yearMonth);
+
+    @Query(value = "select r from Reservation r " +
+            "where mem_no = ?2 " +
+            "and (to_char(start_dt, 'YYYYMMDD') = ?1 or  to_char(end_dt, 'YYYYMMDD') = ?1 " +
+            "or  to_char(start_dt, 'YYYYMM') = ?1 or  to_char(end_dt, 'YYYYMM') = ?1) "
+    )
+    List<Reservation> findAllReservationByMemNoAndYearMonthDay(@Param("yearMonthDay") String yearMonthDay, @Param("memNo") Long memberNo);
 }

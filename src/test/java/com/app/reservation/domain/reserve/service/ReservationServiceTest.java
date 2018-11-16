@@ -2,7 +2,7 @@ package com.app.reservation.domain.reserve.service;
 
 import com.app.reservation.api.v1.dto.ReservationRequestDtoV1;
 import com.app.reservation.domain.reserve.repository.Reservation;
-import com.app.reservation.exception.ExistResultFoundException;
+import com.app.reservation.exception.ExistReservationFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Before;
 import org.junit.Test;
@@ -53,12 +53,20 @@ public class ReservationServiceTest {
         assertThat(result.size()).isEqualTo(3);
     }
 
-    @Test(expected= ExistResultFoundException.class)
+    @Test(expected= ExistReservationFoundException.class)
     public void saveReservation_반복_중간_실패() {
         reservation.setStartDt("201810291000");
         reservation.setEndDt("201810291100");
         reservation.setRepeatCnt(3);
         List<Reservation> result = reservationService.addReservationRepeat(reservation.toEntity().memNo(memNo));
         assertThat(result).isNullOrEmpty();
+    }
+
+    @Test
+    public void findReservation_해당_날짜_예약내역조회() {
+        String yearMonthDay = "20181005";
+        List<Reservation> result = reservationService.findAllReservationByYearMonthDay(yearMonthDay);
+        assertThat(result).isNotEmpty();
+        assertThat(result.size()).isEqualTo(3);
     }
 }

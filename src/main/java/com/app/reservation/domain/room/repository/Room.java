@@ -1,16 +1,14 @@
-package com.app.reservation.domain.repository;
+package com.app.reservation.domain.room.repository;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Data
 @Entity
+@Table
 @AllArgsConstructor
 @NoArgsConstructor
 public class Room {

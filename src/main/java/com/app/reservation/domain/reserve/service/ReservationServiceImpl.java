@@ -1,11 +1,14 @@
 package com.app.reservation.domain.reserve.service;
 
 import com.app.reservation.domain.member.repository.MemberRepository;
-import com.app.reservation.domain.repository.RoomRepository;
 import com.app.reservation.domain.reserve.repository.Reservation;
 import com.app.reservation.domain.reserve.repository.ReservationJPARepository;
-import com.app.reservation.exception.ExistResultFoundException;
+import com.app.reservation.domain.room.repository.RoomRepository;
+import com.app.reservation.exception.ExistReservationFoundException;
+import com.app.reservation.exception.MemberNotFoundException;
+import com.app.reservation.exception.RoomNotFoundException;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,23 +20,18 @@ import java.util.List;
 @Service
 public class ReservationServiceImpl implements ReservationService {
 
-    private MemberRepository memberRepository;
-    private RoomRepository roomRepository;
+    @Autowired
     private ReservationJPARepository reservationJPARepository;
-
-    public ReservationServiceImpl(MemberRepository memberRepository,
-                                  RoomRepository roomRepository,
-                                  ReservationJPARepository reservationJPARepository) {
-        this.memberRepository = memberRepository;
-        this.roomRepository = roomRepository;
-        this.reservationJPARepository = reservationJPARepository;
-    }
+    @Autowired
+    private MemberRepository memberRepository;
+    @Autowired
+    private RoomRepository roomRepository;
 
     @Override
     public Reservation addReservation(Reservation param) {
-        if(isExistReservation(param.getRoomNo(), param.getStartDt(), param.getEndDt())){
-            throw new ExistResultFoundException(param.getStartDt() + "~" + param.getEndDt());
-        }
+        isMember(param.getMemNo());
+        isRoom(param.getRoomNo());
+        isExistReservation(param.getRoomNo(), param.getStartDt(), param.getEndDt());
         return reservationJPARepository.saveAndFlush(param);
     }
 
@@ -53,9 +51,34 @@ public class ReservationServiceImpl implements ReservationService {
         return result;
     }
 
+    @Override
+    public List<Reservation> findAllReservationByYearMonthDay(String yearMonthDay) {
+        List<Reservation> result = reservationJPARepository.findAllReservationByYearMonthDay(yearMonthDay);
+        return result;
+    }
 
-    private boolean isExistReservation(long roomNo, LocalDateTime startDt, LocalDateTime endDt) {
+    @Override
+    public List<Reservation> findAllReservationByMemNoAndYearMonthDay(Long memberNo, String yearMonthDay) {
+        List<Reservation> result = reservationJPARepository.findAllReservationByMemNoAndYearMonthDay(yearMonthDay, memberNo);
+        return result;
+    }
+
+    private void isMember(long memNo) {
+        if(!memberRepository.findById(memNo).isPresent()){
+            throw new MemberNotFoundException(String.valueOf(memNo));
+        }
+    }
+
+    private void isRoom(long roomNo) {
+        if(!roomRepository.findById(roomNo).isPresent()){
+            throw new RoomNotFoundException(String.valueOf(roomNo));
+        }
+    }
+
+    private void isExistReservation(long roomNo, LocalDateTime startDt, LocalDateTime endDt) {
         List<Reservation> result = reservationJPARepository.findExistReservation(roomNo, startDt, endDt);
-        return !result.isEmpty();
+        if(!result.isEmpty()){
+            throw new ExistReservationFoundException(startDt + "~" + endDt);
+        }
     }
 }

@@ -42,7 +42,7 @@ public class ReservationRepositoryTest {
 
     @Transactional
     @Test
-    public void saveReservation() {
+    public void saveReservation_예약하기() {
         Reservation result = reservationJPARepository.saveAndFlush(param);
         assertThat(result).isNotNull();
         assertThat(result.getStartDt()).isEqualTo(param.getStartDt());
@@ -97,10 +97,11 @@ public class ReservationRepositoryTest {
     }
 
     @Test
-    public void findReservation_해당_월_예약내역조회() {
-        String yearMonth = "201811";
-        List<Reservation> result = reservationJPARepository.findAllReservationByYearMonth(yearMonth);
+    public void findReservation_해당_날짜_예약내역조회() {
+        String yearMonthDay = "20181005";
+        List<Reservation> result = reservationJPARepository.findAllReservationByYearMonthDay(yearMonthDay);
         assertThat(result.size()).isGreaterThan(0);
+        assertThat(result.size()).isEqualTo(3);
     }
 }
 

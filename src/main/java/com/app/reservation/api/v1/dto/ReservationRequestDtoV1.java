@@ -25,7 +25,7 @@ public class ReservationRequestDtoV1 {
     public Reservation toEntity(){
         return Reservation.builder()
                           .roomNo(roomNo)
-                          .repeatCnt(repeatCnt)
+                          .repeatCnt(repeatCnt <= 0 ? 1 : repeatCnt )
                           .build()
                           .startDt(startDt)
                           .endDt(endDt);

@@ -1,4 +1,4 @@
-package com.app.reservation.domain.member.repository;
+package com.app.reservation.domain.room.repository;
 
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Before;
@@ -15,22 +15,28 @@ import static org.assertj.core.api.Assertions.assertThat;
 @SpringBootTest
 @RunWith(SpringRunner.class)
 @ActiveProfiles(value = "h2")
-public class MemberRepositoryTest {
+public class RoomRepositoryTest {
 
-    private long memNo;
+    private long roomNo;
 
     @Before
     public void setUp() throws Exception {
-        memNo = 10001;
+        roomNo = 101;
     }
 
     @Autowired
-    private MemberRepository memberRepository;
+    private RoomRepository roomRepository;
 
     @Test
-    public void findMemberByMemNo() {
-        Member member = memberRepository.findById(memNo).orElse(null);
-        assertThat(member).isNotNull();
-        assertThat(member.getMemNo()).isEqualTo(memNo);
+    public void findRoomById() {
+        Room room = roomRepository.findById(roomNo).orElse(null);
+        assertThat(room).isNotNull();
+        assertThat(room.getRoomNo()).isEqualTo(roomNo);
+    }
+
+    @Test
+    public void findRoomById_nullCheck() {
+        Room room = roomRepository.findById(1002L).orElse(null);
+        assertThat(room).isNull();
     }
 }
