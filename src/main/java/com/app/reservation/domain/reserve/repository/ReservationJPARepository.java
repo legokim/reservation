@@ -21,7 +21,7 @@ public interface ReservationJPARepository extends JpaRepository<Reservation, Lon
 
 
     @Query(value = "select r from Reservation r " +
-            "where to_char(start_dt, 'YYYYMMDD') = ?1 or  to_char(end_dt, 'YYYYMMDD') = ?1" +
+            "where to_char( start_dt, 'YYYYMMDD') = ?1 or  to_char(end_dt, 'YYYYMMDD') = ?1" +
             "or  to_char(start_dt, 'YYYYMM') = ?1 or  to_char(end_dt, 'YYYYMM') = ?1"
     )
     List<Reservation> findAllReservationByYearMonthDay(@Param("yearMonthDay") String yearMonth);
